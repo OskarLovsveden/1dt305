@@ -15,8 +15,8 @@ with open("config.json") as f:
     config = json.load(f)
 
 # Define pins for the sensor
-SDA_PIN = "P23" # update this to your pin in use
-SCL_PIN = "P22" # update this to your pin in use
+SDA_PIN = "P23"
+SCL_PIN = "P22"
 
 # Create and use PIN assignments defined above
 i2c = machine.I2C(0, pins=(SDA_PIN, SCL_PIN))
@@ -41,11 +41,11 @@ while True:
     # Get soil moisture and ambient temperature values
     moisture = seesaw.get_moisture()
     temperature = seesaw.get_temp()
-    
+
     # Print in REPL (development)
     print('moisture: ' + str(moisture))
     print('temperature: ' + str(temperature))
-    
+
     # Publish the soil moisture and ambient temperature to adafruit.io
     client.publish(AIO_SOIL_MOISTURE_FEED, str(moisture))
     client.publish(AIO_TEMPERATURE_FEED, str(temperature))
