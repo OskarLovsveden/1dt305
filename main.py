@@ -10,12 +10,15 @@ from mqtt import MQTTClient
 # https://github.com/mihai-dinculescu/micropython-adafruit-drivers/tree/master/seesaw
 from stemma_soil_sensor import StemmaSoilSensor
 
+# Open and read from config.json
 with open("config.json") as f:
     config = json.load(f)
 
+# Define pins for the sensor
 SDA_PIN = "P23" # update this to your pin in use
 SCL_PIN = "P22" # update this to your pin in use
 
+# Create and use PIN assignments defined above
 i2c = machine.I2C(0, pins=(SDA_PIN, SCL_PIN))
 seesaw = StemmaSoilSensor(i2c)
 
@@ -32,14 +35,20 @@ AIO_TEMPERATURE_FEED = config["AIO_TEMPERATURE_FEED"]
 client = MQTTClient(AIO_CLIENT_ID, AIO_SERVER, AIO_PORT, AIO_USER, AIO_KEY)
 client.connect()
 
+# Perferm readings "infinitely"
 while True:
 
+    # Get soil moisture and ambient temperature values
     moisture = seesaw.get_moisture()
-    print('moisture: ' + str(moisture))
-    client.publish(AIO_SOIL_MOISTURE_FEED, str(moisture))
-
     temperature = seesaw.get_temp()
+    
+    # Print in REPL (development)
+    print('moisture: ' + str(moisture))
     print('temperature: ' + str(temperature))
+    
+    # Publish the soil moisture and ambient temperature to adafruit.io
+    client.publish(AIO_SOIL_MOISTURE_FEED, str(moisture))
     client.publish(AIO_TEMPERATURE_FEED, str(temperature))
 
-    time.sleep(60 * 60)
+    # Wait/sleep 60s
+    time.sleep(60)
