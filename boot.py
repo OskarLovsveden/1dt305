@@ -10,7 +10,7 @@ nets = wlan.scan()
 # Loop networks found and search for match in config SSID
 for net in nets:
     if net.ssid == config.SSID:
-        
+
         # Connect when match is found
         print("Network found!")
         wlan.connect(net.ssid, auth=(net.sec, config.SSID_PASS), timeout=5000)

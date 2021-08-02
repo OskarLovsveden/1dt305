@@ -3,6 +3,7 @@ import time
 import machine
 import hashlib
 import ubinascii
+import config
 
 # https://github.com/iot-lnu/applied-iot/tree/master/network-examples/ccs811-bmp180-dht22-MQTT
 from mqtt import MQTTClient
