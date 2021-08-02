@@ -10,10 +10,6 @@ from mqtt import MQTTClient
 # https://github.com/mihai-dinculescu/micropython-adafruit-drivers/tree/master/seesaw
 from stemma_soil_sensor import StemmaSoilSensor
 
-# Open and read from config.json
-with open("config.json") as f:
-    config = json.load(f)
-
 # Define pins for the sensor
 SDA_PIN = "P23"
 SCL_PIN = "P22"
@@ -24,12 +20,12 @@ seesaw = StemmaSoilSensor(i2c)
 
 # Adafruit IO (AIO) configuration below
 AIO_CLIENT_ID = ubinascii.hexlify(hashlib.md5(machine.unique_id()).digest()) # md5 hash of WLAN mac
-AIO_SERVER = config["AIO_SERVER"]
-AIO_PORT = config["AIO_PORT"]
-AIO_USER = config["AIO_USER"]
-AIO_KEY = config["AIO_KEY"]
-AIO_SOIL_MOISTURE_FEED = config["AIO_SOIL_MOISTURE_FEED"]
-AIO_TEMPERATURE_FEED = config["AIO_TEMPERATURE_FEED"]
+AIO_SERVER = config.AIO_SERVER
+AIO_PORT = config.AIO_PORT
+AIO_USER = config.AIO_USER
+AIO_KEY = config.AIO_KEY
+AIO_SOIL_MOISTURE_FEED = config.AIO_SOIL_MOISTURE_FEED
+AIO_TEMPERATURE_FEED = config.AIO_TEMPERATURE_FEED
 
 # Initialize and connect to MQTT client
 client = MQTTClient(AIO_CLIENT_ID, AIO_SERVER, AIO_PORT, AIO_USER, AIO_KEY)
